@@ -29,7 +29,9 @@
   },
   "dependencies": {
     "express": "^4.17.2",
-    "pg": "^8.7.3"
+    "pg": "^8.7.3",
+    "postgres": "^1.0.2",
+    "supertest": "^6.2.2"
   },
   "jest": {
     "setupFilesAfterEnv": [

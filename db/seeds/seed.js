@@ -67,7 +67,11 @@ const seed = async ({ topicData, userData, articleData, commentData }) => {
       ]
     )
   );
-  return db.query(insertCommentsQueryStr).then((result) => result.rows);
+  return db.query(insertCommentsQueryStr)
+    .then((result) => {
+      //console.log(result.rows);
+      return result.rows
+    });
 };
 
 module.exports = seed;

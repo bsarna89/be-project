@@ -13,7 +13,7 @@ const fetchTopics = () => {
 
 const fetchUsers = () => {
 
-    let str = `SELECT username FROM users`;
+    let str = `SELECT username FROM users;`;
 
     return db.query(str).then(({ rows }) => {
         console.table(rows);

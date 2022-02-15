@@ -1,5 +1,5 @@
 
-const { fetchTopics, fetchUsers } = require("../models/GET-models");
+
 
 const { fetchTopics, fetchArticleId, fetchUsers } = require("../models/GET-models");
 

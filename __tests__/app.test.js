@@ -13,7 +13,7 @@ afterAll(() => {
 
 
 
-describe('/api/topics', () => {
+xdescribe('/api/topics', () => {
 
     describe('GET topics', () => {
         test('/api/topics returns array of objects, should have slug and description property ', () => {
@@ -49,7 +49,7 @@ describe('/api/topics', () => {
 });
 
 
-describe('/api/articles/:article_id', () => {
+xdescribe('/api/articles/:article_id', () => {
     describe('GET by article_id', () => {
 
         test('/api/articles/:article_id,responds 200 with one element array containing article  ', () => {

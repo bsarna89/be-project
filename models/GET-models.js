@@ -17,6 +17,7 @@ const fetchUsers = () => {
 
     return db.query(str).then(({ rows }) => {
         console.table(rows);
+        return rows;
     })
 }
 

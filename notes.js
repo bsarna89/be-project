@@ -5,35 +5,7 @@ const db = require('./db/connection');
 
 
 const { serverError, handleCustomErrors } = require('./errors');
-const getArticles = ((req, res, next) => {
 
-
-    fetchArticles().then((articles) => {
-
-        res.status(200).send({ articles: articles });
-
-    })
-        .catch((err) => {
-            console.log(err, "controller err");
-            next(err);
-        })
-
-
-})
-
-const fetchArticles = () => {
-
-    let str = `SELECT * FROM articles;`;
-
-    return db.query(str).then(({ rows }) => {
-
-        console.log(rows);
-
-        return rows;
-    })
-}
-
-app.get('/api/articles', getArticles);
 
 
 

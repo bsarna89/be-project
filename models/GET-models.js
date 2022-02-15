@@ -16,7 +16,17 @@ const fetchUsers = () => {
     let str = `SELECT username FROM users`;
 
     return db.query(str).then(({ rows }) => {
-        console.table(rows);
+
+        return rows;
+    })
+}
+
+const fetchArticles = () => {
+
+    let str = `SELECT * FROM articles;`;
+
+    return db.query(str).then(({ rows }) => {
+
         return rows;
     })
 }
@@ -42,5 +52,5 @@ const fetchArticleId = (id) => {
 
 
 
-module.exports = { fetchTopics, fetchArticleId, fetchUsers };
+module.exports = { fetchTopics, fetchArticleId, fetchUsers, fetchArticles };
 

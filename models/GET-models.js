@@ -10,6 +10,17 @@ const fetchTopics = () => {
     })
 }
 
+
+const fetchUsers = () => {
+
+    let str = `SELECT username FROM users;`;
+
+    return db.query(str).then(({ rows }) => {
+        console.table(rows);
+        return rows;
+    })
+}
+
 const fetchArticleId = (id) => {
 
     if (Number.isNaN(id)) {
@@ -24,8 +35,12 @@ const fetchArticleId = (id) => {
         if (rows.length === 0) {
             return Promise.reject({ status: 404, msg: "Resource not found" });
         }
+
         return rows;
     })
 }
 
-module.exports = { fetchTopics, fetchArticleId };
+
+
+module.exports = { fetchTopics, fetchArticleId, fetchUsers };
+

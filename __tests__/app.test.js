@@ -13,7 +13,7 @@ afterAll(() => {
 
 
 
-xdescribe('/api/topics', () => {
+describe('/api/topics', () => {
 
     describe('GET topics', () => {
         test('/api/topics returns array of objects, should have slug and description property ', () => {
@@ -49,7 +49,7 @@ xdescribe('/api/topics', () => {
 });
 
 
-xdescribe('/api/articles/:article_id', () => {
+describe('/api/articles/:article_id', () => {
     describe('GET by article_id', () => {
 
         test('/api/articles/:article_id,responds 200 with one element array containing article  ', () => {
@@ -106,7 +106,7 @@ xdescribe('/api/articles/:article_id', () => {
 
 describe('/api/users', () => {
     describe('GET users', () => {
-        test('/api/users returns array of objects, should username property ', () => {
+        test('/api/users returns array of objects, should have username property ', () => {
             return request(app).get('/api/users').expect(200).then((response) => {
 
                 expect(response.body.users).toBeInstanceOf(Array);
@@ -135,3 +135,7 @@ describe('/api/users', () => {
     });
 
 });
+
+
+
+

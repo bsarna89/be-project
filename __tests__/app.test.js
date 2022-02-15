@@ -138,4 +138,56 @@ describe('/api/users', () => {
 
 
 
+describe('/api/articles/:article_id', () => {
+    describe('PATCH on article_id', () => {
 
+        test.only('/api/articles/:article_id,responds 200 with one element array containing article  ', () => {
+
+            const updated_article =
+            {
+                title: "Living in the shadow of a great man",
+                topic: "mitch",
+                author: "butter_bridge",
+                body: "I find this existence challenging",
+                created_at: 1594329060000,
+                votes: 101
+            }
+
+
+            return request(app).patch('/api/articles/2').send(updated_article).expect(200).then((response) => {
+
+
+
+            })
+
+        })
+
+        test('/api/articles/article:id responds error 404 when wrong path been passed ', () => {
+            return request(app).get('/api/tarticless').expect(404).then((response) => {
+
+                const message = { msg: "Path not found" };
+                expect(response.body).toEqual(message);
+            })
+
+        })
+
+
+        test('/api/articles/article:id responds error 404 when article_id does not exist in DB', () => {
+            return request(app).get('/api/articles/1234').expect(404).then((response) => {
+
+                const message = { msg: "Resource not found" };
+                expect(response.body).toEqual(message);
+            })
+
+        })
+        test('/api/articles/article:id responds error 400 when article_id is not valid', () => {
+            return request(app).get('/api/articles/ban').expect(400).then((response) => {
+
+                const message = { msg: "Bad Request" };
+                expect(response.body).toEqual(message);
+            })
+
+        })
+    });
+
+});

@@ -5,6 +5,7 @@ app.use(express.json());
 
 const { getTopics, getArticleId, getUsers } = require("./controllers/GET-controllers");
 const { serverError, handleCustomErrors } = require('./errors');
+const { updateArticle } = require('./controllers/PATCH-controllers');
 
 
 
@@ -15,6 +16,7 @@ app.get('/api/users', getUsers);
 app.get('/api/articles/:article_id', getArticleId);
 
 
+app.patch('/api/articles/:article_id', updateArticle);
 
 
 app.all("/*", (req, res) => {

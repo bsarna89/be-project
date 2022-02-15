@@ -8,6 +8,6 @@ const testData = require('./data/test-data');
 const data = { dev: devData, test: testData };
 
 const ENV = process.env.NODE_ENV || "dev";
-console.log(ENV, "in files");
+console.log(ENV, "in files setting function");
 
 module.exports = data[ENV];

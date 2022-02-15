@@ -1,6 +1,6 @@
 
 
-// More error handling function will be made
+
 exports.handleCustomErrors = (err, req, res, next) => {
     console.log("handleCustomError");
     console.log(err);

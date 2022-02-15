@@ -162,6 +162,15 @@ describe('/api/articles', () => {
 
         })
 
+        test('/api/articles responds with sorted array of articles sorted by date in descending order ', () => {
+            return request(app).get('/api/articles').expect(200).then((response) => {
+
+                expect(response.body.articles).toBeSortedBy("created_at", { descending: true });
+            })
+
+        })
+
+
         test('/api/articles responds error 404 when wrong path been passed ', () => {
             return request(app).get('/api/article').expect(404).then((response) => {
 

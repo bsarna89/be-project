@@ -23,9 +23,11 @@ const fetchUsers = () => {
 
 const fetchArticles = () => {
 
-    let str = `SELECT * FROM articles;`;
+    let str = `SELECT * FROM articles
+               ORDER BY articles.created_at DESC`;
 
     return db.query(str).then(({ rows }) => {
+
 
         return rows;
     })

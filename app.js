@@ -2,12 +2,13 @@ const express = require('express');
 const app = express();
 app.use(express.json());
 
-const { getTopics } = require("./controllers/GET-controllers");
+const { getTopics, getUsers } = require("./controllers/GET-controllers");
 const { serverError } = require('./errors');
 
 
 
 app.get('/api/topics', getTopics);
+app.get('/api/users', getUsers);
 
 
 

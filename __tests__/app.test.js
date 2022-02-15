@@ -10,7 +10,7 @@ afterAll(() => {
     if (db.end) db.end();
 });
 
-describe('/api/topics', () => {
+xdescribe('/api/topics', () => {
     describe('GET topics', () => {
         test('/api/topics returns array of objects, should have slug and description property ', () => {
             return request(app).get('/api/topics').expect(200).then((response) => {
@@ -44,7 +44,7 @@ describe('/api/topics', () => {
 
 });
 
-describe('/api/articles/:article_id', () => {
+xdescribe('/api/articles/:article_id', () => {
     describe('GET article_id', () => {
         test('/api/articles/:article_id,responds 200 with one element array containing article  ', () => {
             return request(app).get('/api/articles/2').expect(200).then((response) => {
@@ -93,6 +93,40 @@ describe('/api/articles/:article_id', () => {
             })
 
         })
+    });
+
+});
+
+describe('/api/users', () => {
+    describe('GET users', () => {
+        test('/api/users returns array of objects, should username property ', () => {
+            return request(app).get('/api/users').expect(200).then((response) => {
+
+                expect(response.body.users).toBeInstanceOf(Array);
+                expect(response.body.users.length).toBeGreaterThan(0);
+
+                response.body.users.forEach((user) => {
+                    expect(user).toEqual(expect.objectContaining({
+                        username: expect.any(String)
+
+                    }))
+                })
+
+            })
+
+        })
+
+        test('/api/users responds error 404 when wrong path been passed ', () => {
+            return request(app).get('/api/user').expect(404).then((response) => {
+
+                const message = { msg: "Path not found" };
+                expect(response.body).toEqual(message);
+            })
+
+        })
+
+
+
     });
 
 });

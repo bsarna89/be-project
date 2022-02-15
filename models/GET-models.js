@@ -10,4 +10,14 @@ const fetchTopics = () => {
     })
 }
 
-module.exports = { fetchTopics };
+const fetchUsers = () => {
+
+    let str = `SELECT username FROm users`;
+
+    return db.query(str).then(({ rows }) => {
+        console.table(rows);
+        return rows;
+    })
+}
+
+module.exports = { fetchTopics, fetchUsers };

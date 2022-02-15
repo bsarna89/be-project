@@ -10,7 +10,11 @@ afterAll(() => {
     if (db.end) db.end();
 });
 
-xdescribe('/api/topics', () => {
+
+
+
+describe('/api/topics', () => {
+
     describe('GET topics', () => {
         test('/api/topics returns array of objects, should have slug and description property ', () => {
             return request(app).get('/api/topics').expect(200).then((response) => {
@@ -44,8 +48,10 @@ xdescribe('/api/topics', () => {
 
 });
 
-xdescribe('/api/articles/:article_id', () => {
-    describe('GET article_id', () => {
+
+describe('/api/articles/:article_id', () => {
+    describe('GET by article_id', () => {
+
         test('/api/articles/:article_id,responds 200 with one element array containing article  ', () => {
             return request(app).get('/api/articles/2').expect(200).then((response) => {
 
@@ -76,6 +82,7 @@ xdescribe('/api/articles/:article_id', () => {
             })
 
         })
+
 
         test('/api/articles/article:id responds error 404 when article_id does not exist in DB', () => {
             return request(app).get('/api/articles/1234').expect(404).then((response) => {

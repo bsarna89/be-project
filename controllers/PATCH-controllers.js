@@ -9,7 +9,7 @@ const updateArticle = ((req, res, next) => {
 
     fetchArticleIdAndUpdate(id, body).then((article) => {
 
-        res.status(200).send({ article: article });
+        res.status(200).send({ article });
 
     })
         .catch((err) => {

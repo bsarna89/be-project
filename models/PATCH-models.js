@@ -4,7 +4,9 @@ const db = require('../db/connection');
 
 const fetchArticleIdAndUpdate = (id, body) => {
 
-    if (Object.keys(body).length === 0) {
+
+
+    if (Object.keys(body).length !== 1) {
         return Promise.reject({ status: 400, msg: "Bad Request" });
     }
 
@@ -12,7 +14,7 @@ const fetchArticleIdAndUpdate = (id, body) => {
         return Promise.reject({ status: 400, msg: "Bad Request" });
     }
 
-    if (Number.isNaN(body.inc_votes)) {
+    if (typeof body.inc_votes !== "number") {
         return Promise.reject({ status: 400, msg: "Bad Request" });
     }
 
@@ -25,7 +27,7 @@ const fetchArticleIdAndUpdate = (id, body) => {
             return Promise.reject({ status: 404, msg: "Resource not found" });
         }
 
-        return rows;
+        return rows[0];
     })
 }
 

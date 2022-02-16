@@ -199,9 +199,7 @@ describe('/api/articles/:article_id', () => {
 
             return request(app).patch('/api/articles/1').send(updateArticle).expect(200).then((response) => {
 
-                expect(response.body.article.length).toBe(1);
-
-                expect(response.body.article[0]).toEqual(expect.objectContaining({
+                expect(response.body.article).toEqual(expect.objectContaining({
                     article_id: 1,
                     votes: 123,
                     title: expect.any(String),
@@ -243,7 +241,7 @@ describe('/api/articles/:article_id', () => {
         })
 
         test('/api/articles/article:id responds error 400 when passed body.inc_votes is not valid', () => {
-            return request(app).patch('/api/articles/id').send({ inc_votes: "id" }).expect(400).then((response) => {
+            return request(app).patch('/api/articles/1').send({ inc_votes: "id" }).expect(400).then((response) => {
 
                 const message = { msg: "Bad Request" };
                 expect(response.body).toEqual(message);
@@ -251,7 +249,16 @@ describe('/api/articles/:article_id', () => {
 
         })
         test('/api/articles/article:id responds error 400 when passed body is empty', () => {
-            return request(app).patch('/api/articles/id').send({}).expect(400).then((response) => {
+            return request(app).patch('/api/articles/1').send({}).expect(400).then((response) => {
+
+                const message = { msg: "Bad Request" };
+                expect(response.body).toEqual(message);
+            })
+
+        })
+
+        test('/api/articles/article:id responds with 400 when passed body has more then one property', () => {
+            return request(app).patch('/api/articles/1').send({ inc_votes: 23, user: "alan" }).expect(400).then((response) => {
 
                 const message = { msg: "Bad Request" };
                 expect(response.body).toEqual(message);

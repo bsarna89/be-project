@@ -262,3 +262,34 @@ describe('/api/articles/:article_id', () => {
     });
 
 });
+
+describe('/api/articles/:articleid/comments', () => {
+    describe('POST comment', () => {
+
+        const insertObject =
+        {
+            username: 'icellusedkars',
+            body: 'I love coding...:)'
+        }
+
+        test.only('Trial ', () => {
+            return request(app).post('/api/articles/1/comments').send(insertObject).expect(200).then((response) => {
+
+
+
+            })
+
+        })
+        /*
+       test('/api/users responds error 404 when wrong path been passed ', () => {
+           return request(app).get('/api/user').expect(404).then((response) => {
+
+               const message = { msg: "Path not found" };
+               expect(response.body).toEqual(message);
+           })
+
+       })
+    */
+    });
+
+});

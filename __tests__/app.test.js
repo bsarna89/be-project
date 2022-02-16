@@ -185,4 +185,87 @@ describe('/api/articles', () => {
 
 });
 
+describe('/api/articles/:article_id', () => {
+    describe('PATCH on article_id', () => {
 
+        const updateArticle =
+        {
+            inc_votes: 23
+        }
+
+        test('/api/articles/:article_id,responds 200 with updated article  ', () => {
+
+
+
+            return request(app).patch('/api/articles/1').send(updateArticle).expect(200).then((response) => {
+
+                expect(response.body.article).toEqual(expect.objectContaining({
+                    article_id: 1,
+                    votes: 123,
+                    title: expect.any(String),
+                    body: expect.any(String),
+                    created_at: expect.any(String),
+                    author: expect.any(String),
+                    topic: expect.any(String)
+                }))
+
+            })
+
+        })
+
+        test('/api/articles/article:id responds error 404 when wrong path been passed ', () => {
+            return request(app).patch('/api/tarticless').send(updateArticle).expect(404).then((response) => {
+
+                const message = { msg: "Path not found" };
+                expect(response.body).toEqual(message);
+            })
+
+        })
+
+
+        test('/api/articles/article:id responds error 404 when article_id does not exist in DB', () => {
+            return request(app).patch('/api/articles/1234').send(updateArticle).expect(404).then((response) => {
+
+                const message = { msg: "Resource not found" };
+                expect(response.body).toEqual(message);
+            })
+
+        })
+        test('/api/articles/article:id responds error 400 when article_id is not valid', () => {
+            return request(app).patch('/api/articles/id').send(updateArticle).expect(400).then((response) => {
+
+                const message = { msg: "Bad Request" };
+                expect(response.body).toEqual(message);
+            })
+
+        })
+
+        test('/api/articles/article:id responds error 400 when passed body.inc_votes is not valid', () => {
+            return request(app).patch('/api/articles/1').send({ inc_votes: "id" }).expect(400).then((response) => {
+
+                const message = { msg: "Bad Request" };
+                expect(response.body).toEqual(message);
+            })
+
+        })
+        test('/api/articles/article:id responds error 400 when passed body is empty', () => {
+            return request(app).patch('/api/articles/1').send({}).expect(400).then((response) => {
+
+                const message = { msg: "Bad Request" };
+                expect(response.body).toEqual(message);
+            })
+
+        })
+
+        test('/api/articles/article:id responds with 400 when passed body has more then one property', () => {
+            return request(app).patch('/api/articles/1').send({ inc_votes: 23, user: "alan" }).expect(400).then((response) => {
+
+                const message = { msg: "Bad Request" };
+                expect(response.body).toEqual(message);
+            })
+
+        })
+
+    });
+
+});

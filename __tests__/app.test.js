@@ -1,5 +1,6 @@
 const request = require('supertest');
 const app = require('../app');
+const { updateArticle } = require('../controllers/PATCH-controllers');
 const db = require('../db/connection');
 const data = require('../db/index');
 const seed = require('../db/seeds/seed');
@@ -188,29 +189,35 @@ describe('/api/articles', () => {
 describe('/api/articles/:article_id', () => {
     describe('PATCH on article_id', () => {
 
-        test.only('/api/articles/:article_id,responds 200 with one element array containing article  ', () => {
+        const updateArticle =
+        {
+            inc_votes: 23
+        }
 
-            const updated_article =
-            {
-                title: "Living in the shadow of a great man",
-                topic: "mitch",
-                author: "butter_bridge",
-                body: "I find this existence challenging",
-                created_at: 1594329060000,
-                votes: 101
-            }
+        test('/api/articles/:article_id,responds 200 with updated article  ', () => {
 
 
-            return request(app).patch('/api/articles/2').send(updated_article).expect(200).then((response) => {
 
+            return request(app).patch('/api/articles/1').send(updateArticle).expect(200).then((response) => {
 
+                expect(response.body.article.length).toBe(1);
+
+                expect(response.body.article[0]).toEqual(expect.objectContaining({
+                    article_id: 1,
+                    votes: 123,
+                    title: expect.any(String),
+                    body: expect.any(String),
+                    created_at: expect.any(String),
+                    author: expect.any(String),
+                    topic: expect.any(String)
+                }))
 
             })
 
         })
 
         test('/api/articles/article:id responds error 404 when wrong path been passed ', () => {
-            return request(app).get('/api/tarticless').expect(404).then((response) => {
+            return request(app).patch('/api/tarticless').send(updateArticle).expect(404).then((response) => {
 
                 const message = { msg: "Path not found" };
                 expect(response.body).toEqual(message);
@@ -220,7 +227,7 @@ describe('/api/articles/:article_id', () => {
 
 
         test('/api/articles/article:id responds error 404 when article_id does not exist in DB', () => {
-            return request(app).get('/api/articles/1234').expect(404).then((response) => {
+            return request(app).patch('/api/articles/1234').send(updateArticle).expect(404).then((response) => {
 
                 const message = { msg: "Resource not found" };
                 expect(response.body).toEqual(message);
@@ -228,13 +235,31 @@ describe('/api/articles/:article_id', () => {
 
         })
         test('/api/articles/article:id responds error 400 when article_id is not valid', () => {
-            return request(app).get('/api/articles/ban').expect(400).then((response) => {
+            return request(app).patch('/api/articles/id').send(updateArticle).expect(400).then((response) => {
 
                 const message = { msg: "Bad Request" };
                 expect(response.body).toEqual(message);
             })
 
         })
+
+        test('/api/articles/article:id responds error 400 when passed body.inc_votes is not valid', () => {
+            return request(app).patch('/api/articles/id').send({ inc_votes: "id" }).expect(400).then((response) => {
+
+                const message = { msg: "Bad Request" };
+                expect(response.body).toEqual(message);
+            })
+
+        })
+        test('/api/articles/article:id responds error 400 when passed body is empty', () => {
+            return request(app).patch('/api/articles/id').send({ inc_votes: "id" }).expect(400).then((response) => {
+
+                const message = { msg: "Bad Request" };
+                expect(response.body).toEqual(message);
+            })
+
+        })
+
     });
 
 });

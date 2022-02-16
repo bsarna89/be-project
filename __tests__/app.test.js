@@ -1,6 +1,5 @@
 const request = require('supertest');
 const app = require('../app');
-const { updateArticle } = require('../controllers/PATCH-controllers');
 const db = require('../db/connection');
 const data = require('../db/index');
 const seed = require('../db/seeds/seed');

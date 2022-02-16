@@ -5,9 +5,6 @@ const postComment = ((req, res, next) => {
 
     const id = parseInt(req.params.article_id);
     const body = req.body;
-    console.log(id, "id controllers");
-    console.log(req.body, "body controllers")
-
 
     insertComment(id, body).then((comment) => {
 

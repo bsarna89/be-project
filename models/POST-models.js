@@ -6,10 +6,22 @@ const insertComment = (id, body) => {
 
 
     const bodyStr = body.body;
-    console.log(bodyStr, "model");
     const username = body.username;
-    console.log(username, "model");
-    //const timestamp = 
+
+    if (Object.keys(body).length !== 2) {
+        return Promise.reject({ status: 400, msg: "Bad Request" });
+    }
+
+    if (Number.isNaN(id)) {
+        return Promise.reject({ status: 400, msg: "Bad Request" });
+    }
+
+
+    if (typeof bodyStr !== "string" || typeof username !== "string") {
+        return Promise.reject({ status: 400, msg: "Bad Request" });
+    }
+
+
     const array = [bodyStr, username, id, 0];
 
     const str = ` INSERT INTO comments(body, author, article_id, votes)
@@ -18,9 +30,15 @@ const insertComment = (id, body) => {
 
 
     return db.query(str, array).then(({ rows }) => {
-        console.table(rows);
-        return rows;
+
+
+        if (rows.length === 0) {
+            return Promise.reject({ status: 404, msg: "Resource not found" });
+        }
+
+        return rows[0];
     })
+
 }
 
 module.exports = { insertComment };

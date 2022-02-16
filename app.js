@@ -7,7 +7,7 @@ const { getTopics, getArticleId, getUsers, getArticles } = require("./controller
 const { serverError, handleCustomErrors } = require('./errors');
 const { updateArticle } = require('./controllers/PATCH-controllers');
 const { postComment } = require('./controllers/POST-controllers');
-
+const { psqlError } = require('./errors');
 
 
 app.get('/api/topics', getTopics);
@@ -26,6 +26,7 @@ app.all("/*", (req, res) => {
     res.status(404).send({ msg: "Path not found" });
 })
 
+app.use(psqlError);
 app.use(handleCustomErrors);
 app.use(serverError);
 

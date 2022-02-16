@@ -1,4 +1,13 @@
-
+exports.psqlError = (err, req, res, next) => {
+    console.log("sqlError");
+    console.log(err);
+    if (err.code === "23503") {
+        res.status(400).send({ msg: 'Bad Request' });
+    }
+    else {
+        next(err);
+    }
+};
 
 
 exports.handleCustomErrors = (err, req, res, next) => {

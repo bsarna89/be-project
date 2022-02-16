@@ -251,7 +251,7 @@ describe('/api/articles/:article_id', () => {
 
         })
         test('/api/articles/article:id responds error 400 when passed body is empty', () => {
-            return request(app).patch('/api/articles/id').send({ inc_votes: "id" }).expect(400).then((response) => {
+            return request(app).patch('/api/articles/id').send({}).expect(400).then((response) => {
 
                 const message = { msg: "Bad Request" };
                 expect(response.body).toEqual(message);

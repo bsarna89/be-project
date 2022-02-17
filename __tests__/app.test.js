@@ -270,7 +270,7 @@ describe('/api/articles/:article_id', () => {
 
 });
 
-describe('/api/articles/:articleid/comments', () => {
+describe('/api/articles/:article_id/comments', () => {
     describe('POST comment', () => {
 
         const insertObject =
@@ -371,6 +371,46 @@ describe('/api/articles/:articleid/comments', () => {
         })
 
 
+    });
+
+});
+
+describe('/api/comments/:comment_id', () => {
+
+    describe('DELETE comment', () => {
+        test('/api/comments/:comment_id responds 204 and delete comment ', () => {
+            return request(app).delete('/api/comments/1').expect(204).then((response) => {
+
+            })
+
+        })
+
+        test('/api/comments/:comment_id responds error 404 when wrong path been passed ', () => {
+            return request(app).delete('/api/comment/2').expect(404).then((response) => {
+
+                const message = { msg: "Path not found" };
+                expect(response.body).toEqual(message);
+            })
+
+        })
+
+        test('/api/comments/:comment_id responds error 404 when comment_id does not exist in DB', () => {
+            return request(app).delete('/api/comments/1234').expect(404).then((response) => {
+
+                const message = { msg: "Resource not found" };
+                expect(response.body).toEqual(message);
+            })
+
+        })
+
+        test('/api/comments/:comment_id responds error 400 when commit_id is not valid', () => {
+            return request(app).delete('/api/comments/id').expect(400).then((response) => {
+
+                const message = { msg: "Bad Request" };
+                expect(response.body).toEqual(message);
+            })
+
+        })
     });
 
 });

@@ -1,7 +1,8 @@
 
 
 
-const { fetchTopics, fetchArticleId, fetchUsers, fetchArticles } = require("../models/GET-models");
+const { fetchTopics, fetchArticleId, fetchUsers, fetchArticles, fetchCommentsByArticleId } = require("../models/GET-models");
+
 
 
 
@@ -52,6 +53,7 @@ const getArticles = ((req, res, next) => {
 
 const getArticleId = ((req, res, next) => {
 
+    console.log(req.query);
     const id = parseInt(req.params.article_id);
 
 
@@ -68,11 +70,28 @@ const getArticleId = ((req, res, next) => {
 
 })
 
+const getComments = ((req, res, next) => {
+
+    const id = parseInt(req.params.article_id);
+    console.log(id, "controllers");
+
+
+    fetchCommentsByArticleId(id).then((comments) => {
+
+        res.status(200).send({ comments: comments });
+
+    })
+        .catch((err) => {
+            console.log(err, "controller err");
+            next(err);
+        })
+})
 
 
 
 
-module.exports = { getTopics, getArticleId, getUsers, getArticles };
+
+module.exports = { getTopics, getArticleId, getUsers, getArticles, getComments };
 
 
 

@@ -100,6 +100,8 @@ describe('/api/articles/:article_id', () => {
             })
 
         })
+
+
     });
 
 });
@@ -405,6 +407,71 @@ describe('/api/comments/:comment_id', () => {
 
         test('/api/comments/:comment_id responds error 400 when commit_id is not valid', () => {
             return request(app).delete('/api/comments/id').expect(400).then((response) => {
+
+                const message = { msg: "Bad Request" };
+                expect(response.body).toEqual(message);
+            })
+
+        })
+    });
+
+});
+
+describe('/api/articles/:article_id/comments', () => {
+    describe('GET comments by article_id', () => {
+
+        test('/api/articles/:article_id/comments responds 200 with array of comments to article  ', () => {
+            return request(app).get('/api/articles/3/comments').expect(200).then((response) => {
+
+
+                expect(response.body.comments).toBeInstanceOf(Array);
+
+                expect(response.body.comments.length).toBe(2);
+
+                response.body.comments.forEach((comment) => {
+                    expect(comment).toEqual(expect.objectContaining({
+
+                        comment_id: expect.any(Number),
+                        votes: expect.any(Number),
+                        body: expect.any(String),
+                        created_at: expect.any(String),
+                        author: expect.any(String)
+                    }))
+                })
+
+            })
+
+        })
+
+        test('/api/articles/article:id/comments responds error 404 when wrong path been passed ', () => {
+            return request(app).get('/api/articles/3/comment').expect(404).then((response) => {
+
+                const message = { msg: "Path not found" };
+                expect(response.body).toEqual(message);
+            })
+
+        })
+
+
+        test('/api/articles/article:id/comments responds error 404 when article_id does not exist in DB', () => {
+            return request(app).get('/api/articles/1234/comments').expect(404).then((response) => {
+
+                const message = { msg: "Resource not found" };
+                expect(response.body).toEqual(message);
+            })
+
+        })
+        test('/api/articles/article:id/comments responds error 404 when article has not been commented', () => {
+            return request(app).get('/api/articles/2/comments').expect(404).then((response) => {
+
+                const message = { msg: "Resource not found" };
+                expect(response.body).toEqual(message);
+            })
+
+        })
+
+        test('/api/articles/article:id/comments responds error 400 when article_id is not valid', () => {
+            return request(app).get('/api/articles/id/comments').expect(400).then((response) => {
 
                 const message = { msg: "Bad Request" };
                 expect(response.body).toEqual(message);

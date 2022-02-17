@@ -52,7 +52,31 @@ const fetchArticleId = (id) => {
     })
 }
 
+const fetchCommentsByArticleId = (id) => {
+
+    if (Number.isNaN(id)) {
+        return Promise.reject({ status: 400, msg: "Bad Request" });
+    }
+
+    let str = `SELECT * FROM comments
+               WHERE comments.article_id = $1;`
+
+    return db.query(str, [id]).then(({ rows }) => {
+
+        if (rows.length === 0) {
+            return Promise.reject({ status: 404, msg: "Resource not found" });
+        }
+
+        rows.map((comment) => {
+            delete comment.article_id;
+        })
+        console.log(rows);
+        return rows;
+    })
+
+}
 
 
-module.exports = { fetchTopics, fetchArticleId, fetchUsers, fetchArticles };
+
+module.exports = { fetchTopics, fetchArticleId, fetchUsers, fetchArticles, fetchCommentsByArticleId };
 

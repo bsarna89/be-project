@@ -98,8 +98,8 @@ describe('/api/articles/:article_id', () => {
 
         })
 
-        test('/api/articles/article:id?comment_count responds 200 wth object ', () => {
-            return request(app).get('/api/articles/1?comment_count').expect(200).then((response) => {
+        test.only('/api/articles/article:id?comment_count responds 200 wth object ', () => {
+            return request(app).get('/api/articles/2?comment_count').expect(200).then((response) => {
 
                 expect(response.body.article).toEqual(expect.objectContaining({
                     article_id: 1,

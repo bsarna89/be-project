@@ -34,7 +34,7 @@ const fetchArticles = () => {
 }
 
 const fetchArticleId = (id, commentCount) => {
-
+    console.log(commentCount, "fetch");
     if (Number.isNaN(id)) {
         return Promise.reject({ status: 400, msg: "Bad Request" });
     }
@@ -52,11 +52,12 @@ const fetchArticleId = (id, commentCount) => {
 
     let str = `SELECT * FROM articles`
     if (Object.keys(commentCount).length > 0) {
-        str += ` JOIN comments ON comments.article_id = $1`
+        str += ` LEFT JOIN comments ON comments.article_id = $1`
     }
     str += ` WHERE articles.article_id = $1;`;
 
     return db.query(str, [id]).then(({ rows }) => {
+        console.log(rows, "fetch");
 
         if (rows.length === 0) {
             return Promise.reject({ status: 404, msg: "Resource not found" });

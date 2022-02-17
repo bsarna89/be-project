@@ -30,12 +30,7 @@ const insertComment = (id, body) => {
 
 
     return db.query(str, array).then(({ rows }) => {
-
-
-        if (rows.length === 0) {
-            return Promise.reject({ status: 404, msg: "Resource not found" });
-        }
-
+        console.table(rows);
         return rows[0];
     })
 

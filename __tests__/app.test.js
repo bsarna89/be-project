@@ -13,7 +13,7 @@ afterAll(() => {
 
 
 
-describe('/api/topics', () => {
+xdescribe('/api/topics', () => {
 
     describe('GET topics', () => {
         test('/api/topics returns array of objects, should have slug and description property ', () => {
@@ -106,7 +106,7 @@ describe('/api/articles/:article_id', () => {
 
 });
 
-describe('/api/users', () => {
+xdescribe('/api/users', () => {
     describe('GET users', () => {
         test('/api/users returns array of objects, should have username property ', () => {
             return request(app).get('/api/users').expect(200).then((response) => {
@@ -138,7 +138,7 @@ describe('/api/users', () => {
 
 });
 
-describe('/api/articles', () => {
+xdescribe('/api/articles', () => {
 
     describe('GET articles', () => {
         test('/api/articles returns array of objects, should have required set of properties ', () => {
@@ -187,7 +187,7 @@ describe('/api/articles', () => {
 
 });
 
-describe('/api/articles/:article_id', () => {
+xdescribe('/api/articles/:article_id', () => {
     describe('PATCH on article_id', () => {
 
         const updateArticle =
@@ -272,7 +272,7 @@ describe('/api/articles/:article_id', () => {
 
 });
 
-describe('/api/articles/:article_id/comments', () => {
+xdescribe('/api/articles/:article_id/comments', () => {
     describe('POST comment', () => {
 
         const insertObject =
@@ -377,7 +377,7 @@ describe('/api/articles/:article_id/comments', () => {
 
 });
 
-describe('/api/comments/:comment_id', () => {
+xdescribe('/api/comments/:comment_id', () => {
 
     describe('DELETE comment', () => {
         test('/api/comments/:comment_id responds 204 and delete comment ', () => {
@@ -424,7 +424,7 @@ describe('/api/comments/:comment_id', () => {
 
 });
 
-describe('/api/articles/:article_id/comments', () => {
+xdescribe('/api/articles/:article_id/comments', () => {
     describe('GET comments by article_id', () => {
 
         test('/api/articles/:article_id/comments responds 200 with array of comments to article  ', () => {

@@ -269,3 +269,108 @@ describe('/api/articles/:article_id', () => {
     });
 
 });
+
+describe('/api/articles/:articleid/comments', () => {
+    describe('POST comment', () => {
+
+        const insertObject =
+        {
+            username: 'icellusedkars',
+            body: 'I love coding...:)'
+        }
+
+        test('/api/articles/:articleid/comments returns posted object ', () => {
+            return request(app).post('/api/articles/1/comments').send(insertObject).expect(200).then((response) => {
+
+                expect(response.body.comment).toEqual(expect.objectContaining({
+                    comment_id: expect.any(Number),
+                    votes: 0,
+                    author: 'icellusedkars',
+                    body: 'I love coding...:)',
+                    created_at: expect.any(String),
+                    article_id: 1
+                }))
+
+            })
+
+        })
+
+        test('/api/articles/article:id/comments responds error 404 when wrong path been passed ', () => {
+            return request(app).post('/api/articles/2/comment').send(insertObject).expect(404).then((response) => {
+
+                const message = { msg: "Path not found" };
+                expect(response.body).toEqual(message);
+            })
+
+        })
+
+        test('/api/articles/article:id/comments responds error 400 when article_id is not valid ', () => {
+            return request(app).post('/api/articles/id/comments').send(insertObject).expect(400).then((response) => {
+
+                const message = { msg: "Bad Request" };
+                expect(response.body).toEqual(message);
+            })
+
+        })
+
+        test('/api/articles/article:id/comments responds error 400 when article_id does not exist in DB ', () => {
+            return request(app).post('/api/articles/1234/comments').send(insertObject).expect(400).then((response) => {
+
+                const message = { msg: "Bad Request" };
+                expect(response.body).toEqual(message);
+            })
+
+        })
+
+        test('/api/articles/article:id/comments responds error 400 when passed body is empty ', () => {
+            return request(app).post('/api/articles/1/comments').send({}).expect(400).then((response) => {
+
+                const message = { msg: "Bad Request" };
+                expect(response.body).toEqual(message);
+            })
+
+        })
+
+        test('/api/articles/article:id/comments responds error 400 when passed body has more then two properties ', () => {
+            return request(app).post('/api/articles/1/comments').send({ body: "Loving", username: "alan", num: 23 }).expect(400)
+                .then((response) => {
+
+                    const message = { msg: "Bad Request" };
+                    expect(response.body).toEqual(message);
+                })
+
+        })
+
+        test('/api/articles/article:id/comments responds error 400 when passed body has only one property ', () => {
+            return request(app).post('/api/articles/1/comments').send({ body: "Loving" }).expect(400)
+                .then((response) => {
+
+                    const message = { msg: "Bad Request" };
+                    expect(response.body).toEqual(message);
+                })
+
+        })
+
+        test('/api/articles/article:id/comments responds error 400 when object.username it is not String ', () => {
+            return request(app).post('/api/articles/1/comments').send({ body: "Loving", username: 2 }).expect(400)
+                .then((response) => {
+
+                    const message = { msg: "Bad Request" };
+                    expect(response.body).toEqual(message);
+                })
+
+        })
+        test('/api/articles/article:id/comments responds error 400 when object.body it is not String ', () => {
+            return request(app).post('/api/articles/1/comments').send({ body: 2, username: "alan" }).expect(400)
+                .then((response) => {
+
+                    const message = { msg: "Bad Request" };
+                    expect(response.body).toEqual(message);
+                })
+
+        })
+
+
+    });
+
+});

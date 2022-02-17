@@ -383,13 +383,6 @@ describe('/api/comments/:comment_id', () => {
         test('/api/comments/:comment_id responds 204 and delete comment ', () => {
             return request(app).delete('/api/comments/1').expect(204).then((response) => {
 
-                //will be done when /api/get/comments created
-                /*
-                return request(app).get("/api/comments").expect(200).then(({ response }) => {
-                    expect(response.comments).toHaveLength(lastComments);
-                });
-                */
-
             })
 
         })

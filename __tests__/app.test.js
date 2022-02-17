@@ -100,6 +100,8 @@ describe('/api/articles/:article_id', () => {
             })
 
         })
+
+
     });
 
 });
@@ -425,7 +427,7 @@ describe('/api/comments/:comment_id', () => {
 describe('/api/articles/:article_id/comments', () => {
     describe('GET comments by article_id', () => {
 
-        test.only('/api/articles/:article_id/comments responds 200 with array of comments to article  ', () => {
+        test('/api/articles/:article_id/comments responds 200 with array of comments to article  ', () => {
             return request(app).get('/api/articles/3/comments').expect(200).then((response) => {
 
 
@@ -448,7 +450,7 @@ describe('/api/articles/:article_id/comments', () => {
 
         })
 
-        test.only('/api/articles/article:id/comments responds error 404 when wrong path been passed ', () => {
+        test('/api/articles/article:id/comments responds error 404 when wrong path been passed ', () => {
             return request(app).get('/api/articles/3/comment').expect(404).then((response) => {
 
                 const message = { msg: "Path not found" };
@@ -458,7 +460,7 @@ describe('/api/articles/:article_id/comments', () => {
         })
 
 
-        test.only('/api/articles/article:id/comments responds error 404 when article_id does not exist in DB', () => {
+        test('/api/articles/article:id/comments responds error 404 when article_id does not exist in DB', () => {
             return request(app).get('/api/articles/1234/comments').expect(404).then((response) => {
 
                 const message = { msg: "Resource not found" };
@@ -466,7 +468,7 @@ describe('/api/articles/:article_id/comments', () => {
             })
 
         })
-        test.only('/api/articles/article:id/comments responds error 404 when article has not been commented', () => {
+        test('/api/articles/article:id/comments responds error 404 when article has not been commented', () => {
             return request(app).get('/api/articles/2/comments').expect(404).then((response) => {
 
                 const message = { msg: "Resource not found" };
@@ -475,7 +477,7 @@ describe('/api/articles/:article_id/comments', () => {
 
         })
 
-        test.only('/api/articles/article:id/comments responds error 400 when article_id is not valid', () => {
+        test('/api/articles/article:id/comments responds error 400 when article_id is not valid', () => {
             return request(app).get('/api/articles/id/comments').expect(400).then((response) => {
 
                 const message = { msg: "Bad Request" };

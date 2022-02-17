@@ -53,6 +53,7 @@ const getArticles = ((req, res, next) => {
 
 const getArticleId = ((req, res, next) => {
 
+    console.log(req.query);
     const id = parseInt(req.params.article_id);
 
 

@@ -70,7 +70,7 @@ const fetchCommentsByArticleId = (id) => {
         rows.map((comment) => {
             delete comment.article_id;
         })
-        console.log(rows);
+
         return rows;
     })
 

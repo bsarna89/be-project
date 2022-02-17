@@ -13,7 +13,7 @@ afterAll(() => {
 
 
 
-describe('/api/topics', () => {
+xdescribe('/api/topics', () => {
 
     describe('GET topics', () => {
         test('/api/topics returns array of objects, should have slug and description property ', () => {
@@ -49,7 +49,7 @@ describe('/api/topics', () => {
 });
 
 
-describe('/api/articles/:article_id', () => {
+xdescribe('/api/articles/:article_id', () => {
     describe('GET by article_id + query', () => {
 
         test('/api/articles/:article_id,responds 200 with one element array containing article  ', () => {
@@ -126,7 +126,7 @@ describe('/api/articles/:article_id', () => {
 
         })
 
-        test('/api/articles/article:id?commet_count responds error 400 when article_id is not valid and query passed', () => {
+        test('/api/articles/article:id?comment_count responds error 400 when article_id is not valid and query passed', () => {
             return request(app).get('/api/articles/ban?comment_count').expect(400).then((response) => {
 
                 const message = { msg: "Bad Request" };
@@ -156,7 +156,7 @@ describe('/api/articles/:article_id', () => {
 
 });
 
-describe('/api/users', () => {
+xdescribe('/api/users', () => {
     describe('GET users', () => {
         test('/api/users returns array of objects, should have username property ', () => {
             return request(app).get('/api/users').expect(200).then((response) => {
@@ -190,7 +190,7 @@ describe('/api/users', () => {
 
 describe('/api/articles', () => {
 
-    describe('GET articles', () => {
+    describe('GET articles + query', () => {
         test('/api/articles returns array of objects, should have required set of properties ', () => {
             return request(app).get('/api/articles').expect(200).then((response) => {
 
@@ -207,6 +207,9 @@ describe('/api/articles', () => {
                         author: expect.any(String),
                         topic: expect.any(String)
                     }))
+
+                    expect(Object.keys(article).length).toBe(7);
+
                 })
 
 
@@ -232,12 +235,77 @@ describe('/api/articles', () => {
 
         })
 
+        test('/api/articles?comment_count responds 200 with array of objects with extra property count_coments ', () => {
+            return request(app).get('/api/articles?comment_count').expect(200).then((response) => {
+
+                expect(response.body.articles).toBeInstanceOf(Array);
+                expect(response.body.articles.length).toBeGreaterThan(0);
+
+                response.body.articles.forEach((article) => {
+                    expect(article).toEqual(expect.objectContaining({
+                        article_id: expect.any(Number),
+                        votes: expect.any(Number),
+                        title: expect.any(String),
+                        body: expect.any(String),
+                        created_at: expect.any(String),
+                        author: expect.any(String),
+                        topic: expect.any(String)
+                    }))
+
+                    expect(Object.keys(article).length).toBe(8);
+
+                })
+
+
+            })
+
+        })
+
+        test('/api/articles?order=ASC responds with sorted array of articles sorted by date in ascending order ', () => {
+            return request(app).get('/api/articles?order=ASC').expect(200).then((response) => {
+
+                expect(response.body.articles).toBeSortedBy("created_at", { ascending: true });
+            })
+
+        })
+
+        test('/api/articles?order=ASC responds with error 400 when oredr query it is not valid ', () => {
+            return request(app).get('/api/articles?order=ASCd').expect(400).then((response) => {
+
+                const message = { msg: "Bad Request" };
+                expect(response.body).toEqual(message);
+            })
+
+        })
+
+        test('/api/articles?order=ASC&sortby=article_id responds with sorted array of articles sorted by chosen feature and order', () => {
+            return request(app).get('/api/articles?order=ASC&sortby=article_id').expect(200).then((response) => {
+
+                expect(response.body.articles).toBeSortedBy("article_id", { ascending: true });
+            })
+
+        })
+
+        test('/api/articles?topic=cats responds with array of articles filtered by topic ', () => {
+            return request(app).get('/api/articles?topic=cats').expect(200).then((response) => {
+
+                response.body.articles.forEach((article) => {
+                    expect(article).toEqual(expect.objectContaining({
+                        topic: 'cats'
+                    }))
+
+                })
+
+            })
+
+        })
+
 
     });
 
 });
 
-describe('/api/articles/:article_id', () => {
+xdescribe('/api/articles/:article_id', () => {
     describe('PATCH on article_id', () => {
 
         const updateArticle =
@@ -322,7 +390,7 @@ describe('/api/articles/:article_id', () => {
 
 });
 
-describe('/api/articles/:article_id/comments', () => {
+xdescribe('/api/articles/:article_id/comments', () => {
     describe('POST comment', () => {
 
         const insertObject =
@@ -427,7 +495,7 @@ describe('/api/articles/:article_id/comments', () => {
 
 });
 
-describe('/api/comments/:comment_id', () => {
+xdescribe('/api/comments/:comment_id', () => {
 
     describe('DELETE comment', () => {
         test('/api/comments/:comment_id responds 204 and delete comment ', () => {
@@ -467,7 +535,7 @@ describe('/api/comments/:comment_id', () => {
 
 });
 
-describe('/api/articles/:article_id/comments', () => {
+xdescribe('/api/articles/:article_id/comments', () => {
     describe('GET comments by article_id', () => {
 
         test('/api/articles/:article_id/comments responds 200 with array of comments to article  ', () => {

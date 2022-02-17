@@ -41,10 +41,16 @@ const fetchArticles = (comment_count, sortby = 'articles.created_at', order = 'D
 
     return db.query(str).then(({ rows }) => {
 
-        console.log(rows);
+        //console.log(rows);
         if (comment_count === 0) return rows;
         if (comment_count === 1) {
-            return fetchArticleId(rows[0].article_id, 1);
+
+            array = rows.map((row) => { return fetchArticleId(row.article_id, 1); })
+            return Promise.all(array).then((articles) => {
+                console.log(articles);
+                return articles;
+            })
+
 
         }
     })

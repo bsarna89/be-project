@@ -21,15 +21,49 @@ const fetchUsers = () => {
     })
 }
 
-const fetchArticles = () => {
+const fetchArticles = (comment_count, sortby = 'created_at', order = 'DESC', topic = 'no_topic') => {
 
-    let str = `SELECT * FROM articles
-               ORDER BY articles.created_at DESC`;
+    console.log(order, "models");
+
+    const validCommentCount = [0, 1];
+    if (!validCommentCount.includes(comment_count)) {
+        return Promise.reject({ status: 400, msg: "Bad Request" });
+    }
+
+    order = order.toUpperCase();
+    const validOrder = ['ASC', 'DESC'];
+    if (!validOrder.includes(order)) {
+        return Promise.reject({ status: 400, msg: "Bad Request" });
+    }
+
+    const validSortBy = ['created_at', 'article_id', 'votes'];
+    if (!validSortBy.includes(sortby)) {
+        return Promise.reject({ status: 400, msg: "Bad Request" });
+    }
+
+    const validTopic = ['no_topic', 'cats', 'mitch'];
+    if (!validTopic.includes(topic)) {
+        return Promise.reject({ status: 400, msg: "Bad Request" });
+    }
+
+    let str = `SELECT * FROM articles`
+    if (topic !== 'no_topic') str += ` WHERE articles.topic = '${topic}'`
+    str += ` ORDER BY articles.${sortby} ${order}`;
 
     return db.query(str).then(({ rows }) => {
 
+        //console.log(rows);
+        if (comment_count === 0) { console.log(rows, "normal"); return rows; }
+        if (comment_count === 1) {
 
-        return rows;
+            array = rows.map((row) => { return fetchArticleId(row.article_id, 1); })
+            return Promise.all(array).then((articles) => {
+                console.log(articles, "comments");
+                return articles;
+            })
+
+
+        }
     })
 }
 

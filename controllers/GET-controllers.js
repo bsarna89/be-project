@@ -37,8 +37,13 @@ const getUsers = ((req, res, next) => {
 
 const getArticles = ((req, res, next) => {
 
+    console.log(req.query, "controller");
+    const { sortby, order, topic } = req.query;
+    console.log(req.query.hasOwnProperty('comment_count'));
 
-    fetchArticles().then((articles) => {
+    const comment_count = req.query.hasOwnProperty('comment_count') ? 1 : 0;
+
+    fetchArticles(comment_count, sortby, order, topic).then((articles) => {
 
         res.status(200).send({ articles: articles });
 
@@ -47,7 +52,6 @@ const getArticles = ((req, res, next) => {
             console.log(err, "controller err");
             next(err);
         })
-
 
 })
 

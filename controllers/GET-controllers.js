@@ -53,11 +53,10 @@ const getArticles = ((req, res, next) => {
 
 const getArticleId = ((req, res, next) => {
 
-    console.log(req.query);
     const id = parseInt(req.params.article_id);
+    const commentCount = req.query;
 
-
-    fetchArticleId(id).then((article) => {
+    fetchArticleId(id, commentCount).then((article) => {
 
         res.status(200).send({ article: article });
 

@@ -134,7 +134,7 @@ describe('/api/articles/:article_id', () => {
             })
 
         })
-        test('/api/articles/article:id?commet_count  200 and article wthout comment_cout when query is not valid', () => {
+        test('/api/articles/article:id?commet_count  200 and article without comment_cout when query is not valid', () => {
             return request(app).get('/api/articles/1?trash=1').expect(200).then((response) => {
 
                 expect(response.body.article).toEqual(expect.objectContaining({

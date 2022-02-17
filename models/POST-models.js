@@ -30,7 +30,7 @@ const insertComment = (id, body) => {
 
 
     return db.query(str, array).then(({ rows }) => {
-        console.table(rows);
+
         return rows[0];
     })
 

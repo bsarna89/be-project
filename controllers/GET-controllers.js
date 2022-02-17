@@ -73,7 +73,7 @@ const getArticleId = ((req, res, next) => {
 const getComments = ((req, res, next) => {
 
     const id = parseInt(req.params.article_id);
-    console.log(id, "controllers");
+
 
 
     fetchCommentsByArticleId(id).then((comments) => {

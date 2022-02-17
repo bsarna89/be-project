@@ -44,7 +44,7 @@ const fetchArticles = (comment_count, sortby = 'articles.created_at', order = 'D
         console.log(rows);
         if (comment_count === 0) return rows;
         if (comment_count === 1) {
-            return fetchArticleId(rows[2].article_id, { comment_count: undefined });
+            return fetchArticleId(rows[0].article_id, 1);
 
         }
     })

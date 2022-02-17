@@ -98,8 +98,9 @@ describe('/api/articles/:article_id', () => {
 
         })
 
-        test.only('/api/articles/article:id?comment_count responds 200 wth object ', () => {
-            return request(app).get('/api/articles/2?comment_count').expect(200).then((response) => {
+        test('/api/articles/article:id?comment_count responds 200 wth article plus comment_count ', () => {
+            return request(app).get('/api/articles/1?comment_count').expect(200).then((response) => {
+
 
                 expect(response.body.article).toEqual(expect.objectContaining({
                     article_id: 1,
@@ -133,11 +134,18 @@ describe('/api/articles/:article_id', () => {
             })
 
         })
-        test('/api/articles/article:id?commet_count responds error 400 when query is not valid', () => {
-            return request(app).get('/api/articles/1?trash=1').expect(400).then((response) => {
+        test('/api/articles/article:id?commet_count  200 and article wthout comment_cout when query is not valid', () => {
+            return request(app).get('/api/articles/1?trash=1').expect(200).then((response) => {
 
-                const message = { msg: "Bad Request" };
-                expect(response.body).toEqual(message);
+                expect(response.body.article).toEqual(expect.objectContaining({
+                    article_id: expect.any(Number),
+                    votes: expect.any(Number),
+                    title: expect.any(String),
+                    body: expect.any(String),
+                    created_at: expect.any(String),
+                    author: expect.any(String),
+                    topic: expect.any(String)
+                }))
             })
 
         })

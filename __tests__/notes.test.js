@@ -16,6 +16,7 @@ describe('/api/articles', () => {
         test('/api/articles returns array of objects, should have required set of properties ', () => {
             return request(app).get('/api/articles').expect(200).then((response) => {
 
+                console.log(response.body, "GETTING 1");
                 expect(response.body.articles).toBeInstanceOf(Array);
                 expect(response.body.articles.length).toBeGreaterThan(0);
 
@@ -58,7 +59,7 @@ describe('/api/articles', () => {
             return request(app).get('/api/articles?comment_count').expect(200).then((response) => {
 
 
-                console.log(response.body, "GETTING");
+                console.log(response.body, "GETTING 2");
 
             })
 

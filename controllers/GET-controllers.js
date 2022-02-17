@@ -1,6 +1,7 @@
 
 
 
+const { query } = require("../db/connection");
 const { fetchTopics, fetchArticleId, fetchUsers, fetchArticles, fetchCommentsByArticleId } = require("../models/GET-models");
 
 
@@ -54,7 +55,7 @@ const getArticles = ((req, res, next) => {
 const getArticleId = ((req, res, next) => {
 
     const id = parseInt(req.params.article_id);
-    const commentCount = req.query;
+    const commentCount = req.query.hasOwnProperty('comment_count') ? 1 : 0;
 
     fetchArticleId(id, commentCount).then((article) => {
 
@@ -72,8 +73,6 @@ const getArticleId = ((req, res, next) => {
 const getComments = ((req, res, next) => {
 
     const id = parseInt(req.params.article_id);
-    console.log(id, "controllers");
-
 
     fetchCommentsByArticleId(id).then((comments) => {
 

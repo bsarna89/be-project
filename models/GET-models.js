@@ -21,12 +21,8 @@ const fetchUsers = () => {
     })
 }
 
-const fetchArticles = (comment_count, sortby = 'created_at', order = 'DESC', topic = 'no_topic') => {
+const fetchArticles = (commentCount, sortby = 'created_at', order = 'DESC', topic) => {
 
-    const validCommentCount = [0, 1];
-    if (!validCommentCount.includes(comment_count)) {
-        return Promise.reject({ status: 400, msg: "Bad Request" });
-    }
 
     order = order.toUpperCase();
     const validOrder = ['ASC', 'DESC'];
@@ -39,21 +35,25 @@ const fetchArticles = (comment_count, sortby = 'created_at', order = 'DESC', top
         return Promise.reject({ status: 400, msg: "Bad Request" });
     }
 
-    const validTopic = ['no_topic', 'cats', 'mitch'];
-    if (!validTopic.includes(topic)) {
-        return Promise.reject({ status: 400, msg: "Bad Request" });
-    }
 
-    let str = `SELECT * FROM articles`
-    if (topic !== 'no_topic') str += ` WHERE articles.topic = '${topic}'`
-    str += ` ORDER BY articles.${sortby} ${order}`;
+    let str = `SELECT articles.*, COUNT(comments.article_id) AS comment_count FROM articles
+               LEFT JOIN comments ON comments.article_id = articles.article_id`
+
+    if (topic !== undefined) str += ` WHERE articles.topic = '${topic}'`
+
+    str += ` GROUP BY articles.article_id
+               ORDER BY articles.${sortby} ${order};`;
+
+
 
     return db.query(str).then(({ rows }) => {
 
-        array = rows.map((row) => { return fetchArticleId(row.article_id, 1); })
-        return Promise.all(array).then((articles) => {
-            return articles;
-        })
+        if (rows.length === 0) {
+            return Promise.reject({ status: 404, msg: "Resource not found" });
+        }
+
+
+        return rows;
 
 
 

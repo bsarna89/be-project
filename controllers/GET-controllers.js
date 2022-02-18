@@ -103,9 +103,9 @@ const getUserByUsername = ((req, res, next) => {
     const username = req.params.username;
     console.log(username);
 
-    fetchUsersByUsername(username).then((users) => {
+    fetchUsersByUsername(username).then((user) => {
 
-        res.status(200).send({ users: users });
+        res.status(200).send({ user: user });
 
     })
         .catch((err) => {

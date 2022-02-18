@@ -21,7 +21,7 @@ const fetchUsers = () => {
     })
 }
 
-const fetchArticles = (commentCount, sortby = 'created_at', order = 'DESC', topic) => {
+const fetchArticles = (sortby = 'created_at', order = 'DESC', topic) => {
 
 
     order = order.toUpperCase();

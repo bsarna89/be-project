@@ -41,9 +41,9 @@ const getArticles = ((req, res, next) => {
 
 
     const { sortby, order, topic } = req.query;
-    const commentCount = req.query.hasOwnProperty('comment_count') ? 1 : 0;
 
-    fetchArticles(commentCount, sortby, order, topic).then((articles) => {
+
+    fetchArticles(sortby, order, topic).then((articles) => {
 
         res.status(200).send({ articles: articles });
 

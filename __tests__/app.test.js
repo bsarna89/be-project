@@ -238,34 +238,9 @@ describe('/api/articles', () => {
 
         })
 
-        test('/api/articles/?comment_count responds 200 with array of objects  ', () => {
-            return request(app).get('/api/articles/?comment_count').expect(200).then((response) => {
-
-                expect(response.body.articles).toBeInstanceOf(Array);
-                expect(response.body.articles.length).toBeGreaterThan(0);
-
-                response.body.articles.forEach((article) => {
-                    expect(article).toEqual(expect.objectContaining({
-                        article_id: expect.any(Number),
-                        votes: expect.any(Number),
-                        title: expect.any(String),
-                        body: expect.any(String),
-                        created_at: expect.any(String),
-                        author: expect.any(String),
-                        topic: expect.any(String),
-                        comment_count: expect.any(String)
-                    }))
-
-                    expect(Object.keys(article).length).toBe(8);
-
-                })
 
 
-            })
-
-        })
-
-        test('/api/articles/?comment_cout responds with ignored comment_cout query when comment_count is not valid ', () => {
+        test('/api/articles responds with ignored comment_cout query when comment_count is not valid ', () => {
             return request(app).get('/api/articles/?comment_c').expect(200).then((response) => {
 
                 response.body.articles.forEach((article) => {
@@ -325,7 +300,7 @@ describe('/api/articles', () => {
 
         })
 
-        test('/api/articles/?topic=cats responds with 404 error when topis is not valid ', () => {
+        test('/api/articles/?topic=guitars responds with 404 error when topis is not valid ', () => {
             return request(app).get('/api/articles/?topic=guitars').expect(404).then((response) => {
 
                 const message = { msg: "Resource not found" };
@@ -336,7 +311,7 @@ describe('/api/articles', () => {
         })
 
         test('/api/articles/?valid_multi_guery responds with relevant array sorted and filtered ', () => {
-            return request(app).get('/api/articles/?topic=mitch&sortby=article_id&order=ASC&comment_count').expect(200).then((response) => {
+            return request(app).get('/api/articles/?topic=mitch&sortby=article_id&order=ASC').expect(200).then((response) => {
 
                 expect(response.body.articles).toBeInstanceOf(Array);
                 expect(response.body.articles.length).toBeGreaterThan(0);

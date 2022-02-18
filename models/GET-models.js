@@ -23,8 +23,6 @@ const fetchUsers = () => {
 
 const fetchArticles = (comment_count, sortby = 'created_at', order = 'DESC', topic = 'no_topic') => {
 
-    console.log(order, "models");
-
     const validCommentCount = [0, 1];
     if (!validCommentCount.includes(comment_count)) {
         return Promise.reject({ status: 400, msg: "Bad Request" });
@@ -53,12 +51,11 @@ const fetchArticles = (comment_count, sortby = 'created_at', order = 'DESC', top
     return db.query(str).then(({ rows }) => {
 
         //console.log(rows);
-        if (comment_count === 0) { console.log(rows, "normal"); return rows; }
+        if (comment_count === 0) { return rows; }
         if (comment_count === 1) {
 
             array = rows.map((row) => { return fetchArticleId(row.article_id, 1); })
             return Promise.all(array).then((articles) => {
-                console.log(articles, "comments");
                 return articles;
             })
 

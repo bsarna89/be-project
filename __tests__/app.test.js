@@ -126,7 +126,7 @@ describe('/api/articles/:article_id', () => {
 
         })
 
-        test('/api/articles/article:id?commet_count responds error 400 when article_id is not valid and query passed', () => {
+        test('/api/articles/article:id?comment_count responds error 400 when article_id is not valid and query passed', () => {
             return request(app).get('/api/articles/ban?comment_count').expect(400).then((response) => {
 
                 const message = { msg: "Bad Request" };
@@ -134,7 +134,7 @@ describe('/api/articles/:article_id', () => {
             })
 
         })
-        test('/api/articles/article:id?commet_count  200 and article without comment_cout when query is not valid', () => {
+        test('/api/articles/article:id?comment_count  200 and article without comment_cout when query is not valid', () => {
             return request(app).get('/api/articles/1?trash=1').expect(200).then((response) => {
 
                 expect(response.body.article).toEqual(expect.objectContaining({

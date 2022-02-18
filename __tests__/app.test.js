@@ -683,3 +683,30 @@ describe('/api', () => {
     });
 
 });
+
+describe('/api/users/:username', () => {
+    describe('GET user by username', () => {
+        test('/api/users/:username retuns username object with relevant properties', () => {
+            return request(app).get('/api/users').expect(200).then((response) => {
+
+
+
+
+
+            })
+
+        })
+        /*
+        test('/api/users responds error 404 when wrong path been passed ', () => {
+            return request(app).get('/api/user').expect(404).then((response) => {
+
+                const message = { msg: "Path not found" };
+                expect(response.body).toEqual(message);
+            })
+
+        })
+        */
+
+    });
+
+});

@@ -120,7 +120,19 @@ const fetchCommentsByArticleId = (id) => {
 
 }
 
+const fetchUsersByUsername = (id) => {
 
 
-module.exports = { fetchTopics, fetchArticleId, fetchUsers, fetchArticles, fetchCommentsByArticleId };
+}
+
+
+
+module.exports = {
+    fetchTopics,
+    fetchArticleId,
+    fetchUsers,
+    fetchArticles,
+    fetchCommentsByArticleId,
+    fetchUsersByUsername
+};
 

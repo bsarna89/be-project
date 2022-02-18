@@ -34,7 +34,7 @@ const fetchArticles = (comment_count, sortby = 'created_at', order = 'DESC', top
         return Promise.reject({ status: 400, msg: "Bad Request" });
     }
 
-    const validSortBy = ['created_at', 'article_id', 'votes'];
+    const validSortBy = ['created_at', 'article_id', 'votes', 'comment_count'];
     if (!validSortBy.includes(sortby)) {
         return Promise.reject({ status: 400, msg: "Bad Request" });
     }
@@ -50,17 +50,13 @@ const fetchArticles = (comment_count, sortby = 'created_at', order = 'DESC', top
 
     return db.query(str).then(({ rows }) => {
 
-        //console.log(rows);
-        if (comment_count === 0) { return rows; }
-        if (comment_count === 1) {
-
-            array = rows.map((row) => { return fetchArticleId(row.article_id, 1); })
-            return Promise.all(array).then((articles) => {
-                return articles;
-            })
+        array = rows.map((row) => { return fetchArticleId(row.article_id, 1); })
+        return Promise.all(array).then((articles) => {
+            return articles;
+        })
 
 
-        }
+
     })
 }
 
@@ -87,10 +83,7 @@ const fetchArticleId = (id, commentCount) => {
             return Promise.reject({ status: 404, msg: "Resource not found" });
         }
 
-        if (commentCount === 0) {
-            delete rows[0].comment_count;
-            return rows[0];
-        }
+
         rows[0].comment_count = parseInt(rows[0].comment_count);
         return rows[0];
     })

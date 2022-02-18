@@ -63,7 +63,8 @@ describe('/api/articles/:article_id', () => {
                     body: expect.any(String),
                     created_at: expect.any(String),
                     author: expect.any(String),
-                    topic: expect.any(String)
+                    topic: expect.any(String),
+                    comment_count: expect.any(Number)
                 }))
 
 
@@ -98,7 +99,7 @@ describe('/api/articles/:article_id', () => {
 
         })
 
-        test('/api/articles/article:id?comment_count responds 200 wth article plus comment_count ', () => {
+        test('/api/articles/article:id?comment_count responds 200 with article plus comment_count ', () => {
             return request(app).get('/api/articles/1?comment_count').expect(200).then((response) => {
 
 
@@ -134,7 +135,7 @@ describe('/api/articles/:article_id', () => {
             })
 
         })
-        test('/api/articles/article:id?commet_count  200 and article wthout comment_cout when query is not valid', () => {
+        test('/api/articles/article:id?comment_count  200 and article with comment_cout when ignoring bad query', () => {
             return request(app).get('/api/articles/1?trash=1').expect(200).then((response) => {
 
                 expect(response.body.article).toEqual(expect.objectContaining({
@@ -144,7 +145,8 @@ describe('/api/articles/:article_id', () => {
                     body: expect.any(String),
                     created_at: expect.any(String),
                     author: expect.any(String),
-                    topic: expect.any(String)
+                    topic: expect.any(String),
+                    comment_count: expect.any(Number)
                 }))
             })
 
@@ -205,10 +207,11 @@ describe('/api/articles', () => {
                         body: expect.any(String),
                         created_at: expect.any(String),
                         author: expect.any(String),
-                        topic: expect.any(String)
+                        topic: expect.any(String),
+                        comment_count: expect.any(Number)
                     }))
 
-                    expect(Object.keys(article).length).toBe(7);
+                    expect(Object.keys(article).length).toBe(8);
 
                 })
 
@@ -262,12 +265,12 @@ describe('/api/articles', () => {
 
         })
 
-        test('/api/articles?comment_cout responds with ignored comment_cout when comment_count is not valid ', () => {
+        test('/api/articles?comment_cout responds with ignored comment_cout query when comment_count is not valid ', () => {
             return request(app).get('/api/articles?comment_c').expect(200).then((response) => {
 
                 response.body.articles.forEach((article) => {
 
-                    expect(Object.keys(article).length).toBe(7);
+                    expect(Object.keys(article).length).toBe(8);
 
                 })
             })

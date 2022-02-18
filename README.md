@@ -1,4 +1,4 @@
-# BE - PROJECT
+# NC NEWS API - Back End
 
-1) Before you start you will need to create two .env files for your project: .env.test and .env.development. Into each, add PGDATABASE=<database_name_here>, with the correct database name for that environment (see /db/setup.sql for the database names).
+This is a RESTful API which provides data from the northcoders news database. The database is PSQL, interacted with via node-postgres. It contains data on users, articles, topics and comments, which are accessible via the endpoints provided and appropriate GET, POST, PATCH and DELETE methods.
 

@@ -7,6 +7,8 @@ const { fetchTopics, fetchArticleId, fetchUsers, fetchArticles, fetchCommentsByA
 
 
 
+
+
 const getTopics = ((req, res, next) => {
 
     fetchTopics().then((topics) => {
@@ -38,7 +40,10 @@ const getUsers = ((req, res, next) => {
 const getArticles = ((req, res, next) => {
 
 
-    fetchArticles().then((articles) => {
+    const { sortby, order, topic } = req.query;
+
+
+    fetchArticles(sortby, order, topic).then((articles) => {
 
         res.status(200).send({ articles: articles });
 
@@ -47,7 +52,6 @@ const getArticles = ((req, res, next) => {
             console.log(err, "controller err");
             next(err);
         })
-
 
 })
 

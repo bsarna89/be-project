@@ -21,15 +21,42 @@ const fetchUsers = () => {
     })
 }
 
-const fetchArticles = () => {
+const fetchArticles = (sortby = 'created_at', order = 'DESC', topic) => {
 
-    let str = `SELECT * FROM articles
-               ORDER BY articles.created_at DESC`;
+
+    order = order.toUpperCase();
+    const validOrder = ['ASC', 'DESC'];
+    if (!validOrder.includes(order)) {
+        return Promise.reject({ status: 400, msg: "Bad Request" });
+    }
+
+    const validSortBy = ['created_at', 'article_id', 'votes', 'comment_count'];
+    if (!validSortBy.includes(sortby)) {
+        return Promise.reject({ status: 400, msg: "Bad Request" });
+    }
+
+
+    let str = `SELECT articles.*, COUNT(comments.article_id) AS comment_count FROM articles
+               LEFT JOIN comments ON comments.article_id = articles.article_id`
+
+    if (topic !== undefined) str += ` WHERE articles.topic = '${topic}'`
+
+    str += ` GROUP BY articles.article_id
+               ORDER BY articles.${sortby} ${order};`;
+
+
 
     return db.query(str).then(({ rows }) => {
 
+        if (rows.length === 0) {
+            return Promise.reject({ status: 404, msg: "Resource not found" });
+        }
+
 
         return rows;
+
+
+
     })
 }
 

@@ -13,7 +13,7 @@ afterAll(() => {
 
 
 
-describe('/api/topics', () => {
+xdescribe('/api/topics', () => {
 
     describe('GET topics', () => {
         test('/api/topics returns array of objects, should have slug and description property ', () => {
@@ -63,7 +63,8 @@ describe('/api/articles/:article_id', () => {
                     body: expect.any(String),
                     created_at: expect.any(String),
                     author: expect.any(String),
-                    topic: expect.any(String)
+                    topic: expect.any(String),
+                    comment_count: expect.any(Number)
                 }))
 
 
@@ -98,7 +99,7 @@ describe('/api/articles/:article_id', () => {
 
         })
 
-        test('/api/articles/article:id?comment_count responds 200 wth article plus comment_count ', () => {
+        test('/api/articles/article:id?comment_count responds 200 with article plus comment_count ', () => {
             return request(app).get('/api/articles/1?comment_count').expect(200).then((response) => {
 
 
@@ -134,7 +135,7 @@ describe('/api/articles/:article_id', () => {
             })
 
         })
-        test('/api/articles/article:id?comment_count  200 and article without comment_cout when query is not valid', () => {
+        test('/api/articles/article:id?comment_count  200 and article with comment_cout when ignoring bad query', () => {
             return request(app).get('/api/articles/1?trash=1').expect(200).then((response) => {
 
                 expect(response.body.article).toEqual(expect.objectContaining({
@@ -144,7 +145,8 @@ describe('/api/articles/:article_id', () => {
                     body: expect.any(String),
                     created_at: expect.any(String),
                     author: expect.any(String),
-                    topic: expect.any(String)
+                    topic: expect.any(String),
+                    comment_count: expect.any(Number)
                 }))
             })
 
@@ -156,7 +158,7 @@ describe('/api/articles/:article_id', () => {
 
 });
 
-describe('/api/users', () => {
+xdescribe('/api/users', () => {
     describe('GET users', () => {
         test('/api/users returns array of objects, should have username property ', () => {
             return request(app).get('/api/users').expect(200).then((response) => {
@@ -188,7 +190,7 @@ describe('/api/users', () => {
 
 });
 
-describe('/api/articles', () => {
+xdescribe('/api/articles', () => {
 
     describe('GET articles', () => {
         test('/api/articles returns array of objects, should have required set of properties ', () => {
@@ -237,7 +239,7 @@ describe('/api/articles', () => {
 
 });
 
-describe('/api/articles/:article_id', () => {
+xdescribe('/api/articles/:article_id', () => {
     describe('PATCH on article_id', () => {
 
         const updateArticle =
@@ -322,7 +324,7 @@ describe('/api/articles/:article_id', () => {
 
 });
 
-describe('/api/articles/:article_id/comments', () => {
+xdescribe('/api/articles/:article_id/comments', () => {
     describe('POST comment', () => {
 
         const insertObject =
@@ -427,7 +429,7 @@ describe('/api/articles/:article_id/comments', () => {
 
 });
 
-describe('/api/comments/:comment_id', () => {
+xdescribe('/api/comments/:comment_id', () => {
 
     describe('DELETE comment', () => {
         test('/api/comments/:comment_id responds 204 and delete comment ', () => {
@@ -467,7 +469,7 @@ describe('/api/comments/:comment_id', () => {
 
 });
 
-describe('/api/articles/:article_id/comments', () => {
+xdescribe('/api/articles/:article_id/comments', () => {
     describe('GET comments by article_id', () => {
 
         test('/api/articles/:article_id/comments responds 200 with array of comments to article  ', () => {

@@ -56,10 +56,7 @@ const fetchArticleId = (id, commentCount) => {
             return Promise.reject({ status: 404, msg: "Resource not found" });
         }
 
-        if (commentCount === 0) {
-            delete rows[0].comment_count;
-            return rows[0];
-        }
+
         rows[0].comment_count = parseInt(rows[0].comment_count);
         return rows[0];
     })

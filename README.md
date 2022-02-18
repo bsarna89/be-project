@@ -67,7 +67,7 @@ nc_news_test=# SELECT * FROM users;
 
 To return to your terminal command prompt, type `\q`.
 
-Alternatively, you may wish to start a local server in order to access the respective endpoints directly. This can be achieved by running the command:
+Alternatively, you will be able to start a local server in order to access the respective endpoints directly. This will be achieved by running the command:
 
 ```
 $ npm run listen.js
@@ -84,7 +84,7 @@ After successfully installing the various dependencies and running the initial s
 The test suite included with this repository contains various tests to ensure each endpoint functions as intended. Upon making any alterations, the complete test suite may be run using the following command:
 
 ```
-$ npm t
+$ npm test
 ```
 
 The following table outlines the purpose of each category of tests. Should you require additional details, please review the tests themselves in the `app.spec.js` file.

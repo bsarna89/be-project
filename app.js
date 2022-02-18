@@ -3,7 +3,7 @@ const app = express();
 app.use(express.json());
 
 
-const { getTopics, getArticleId, getUsers, getArticles, getComments } = require("./controllers/GET-controllers");
+const { getTopics, getArticleId, getUsers, getArticles, getComments, getDescription } = require("./controllers/GET-controllers");
 const { serverError, handleCustomErrors } = require('./errors');
 const { updateArticle } = require('./controllers/PATCH-controllers');
 const { postComment } = require('./controllers/POST-controllers');
@@ -11,6 +11,7 @@ const { deleteComment } = require('./controllers/DELETE-controllers');
 const { psqlError } = require('./errors');
 
 
+app.get('/api', getDescription);
 app.get('/api/topics', getTopics);
 app.get('/api/users', getUsers);
 app.get('/api/articles', getArticles);

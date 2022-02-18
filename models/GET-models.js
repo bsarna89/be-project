@@ -33,22 +33,32 @@ const fetchArticles = () => {
     })
 }
 
-const fetchArticleId = (id) => {
+const fetchArticleId = (id, commentCount) => {
 
     if (Number.isNaN(id)) {
         return Promise.reject({ status: 400, msg: "Bad Request" });
     }
 
-    let str = `SELECT * FROM articles
-               WHERE articles.article_id = $1;`;
+    const validCommentCount = [0, 1];
+    if (!validCommentCount.includes(commentCount)) {
+        return Promise.reject({ status: 400, msg: "Bad request" });
+    }
+
+    let str = `SELECT articles.*, COUNT(comments.article_id) AS comment_count FROM articles
+               LEFT JOIN comments ON comments.article_id = $1
+               WHERE articles.article_id = $1
+               GROUP BY articles.article_id;`;
 
     return db.query(str, [id]).then(({ rows }) => {
+
 
         if (rows.length === 0) {
             return Promise.reject({ status: 404, msg: "Resource not found" });
         }
 
-        return rows;
+
+        rows[0].comment_count = parseInt(rows[0].comment_count);
+        return rows[0];
     })
 }
 

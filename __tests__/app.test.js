@@ -335,7 +335,7 @@ describe('/api/articles', () => {
 
         })
 
-        test('/api/articles?valid_multi_guery responds with relevant array sorted and filtred ', () => {
+        test('/api/articles?valid_multi_guery responds with relevant array sorted and filtered ', () => {
             return request(app).get('/api/articles?topic=mitch&sortby=article_id&order=ASC&comment_count').expect(200).then((response) => {
 
                 expect(response.body.articles).toBeInstanceOf(Array);

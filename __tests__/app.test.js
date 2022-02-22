@@ -664,7 +664,7 @@ describe('/api', () => {
 
 describe('/api/users/:username', () => {
     describe('GET user by username', () => {
-        test('/api/users/:username retuns username object with relevant properties', () => {
+        test.only('/api/users/:username retuns username object with relevant properties', () => {
             return request(app).get('/api/users/icellusedkars').expect(200).then((response) => {
 
                 expect(response.body.user).toEqual(expect.objectContaining({
@@ -677,7 +677,7 @@ describe('/api/users/:username', () => {
 
         })
 
-        test('/api/users/:username responds error 404 when username does not exist in DB ', () => {
+        test.only('/api/users/:username responds error 404 when username does not exist in DB ', () => {
             return request(app).get('/api/users/john').expect(404).then((response) => {
 
                 const message = { msg: "Path not found" };
@@ -686,7 +686,7 @@ describe('/api/users/:username', () => {
 
         })
 
-        test('/api/users/:username responds error 404 when username does not exist in DB ', () => {
+        test.only('/api/users/:username responds error 404 when username does not exist in DB ', () => {
             return request(app).get('/api/users/').expect(404).then((response) => {
 
                 const message = { msg: "Path not found" };

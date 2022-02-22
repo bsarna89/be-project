@@ -15,7 +15,7 @@ afterAll(() => {
 
 
 
-describe('/api/topics', () => {
+xdescribe('/api/topics', () => {
 
     describe('GET topics', () => {
         test('/api/topics returns array of objects, should have slug and description property ', () => {
@@ -51,7 +51,7 @@ describe('/api/topics', () => {
 });
 
 
-describe('/api/articles/:article_id', () => {
+xdescribe('/api/articles/:article_id', () => {
     describe('GET by article_id + query', () => {
 
         test('/api/articles/:article_id,responds 200 with one element array containing article  ', () => {
@@ -65,7 +65,8 @@ describe('/api/articles/:article_id', () => {
                     body: expect.any(String),
                     created_at: expect.any(String),
                     author: expect.any(String),
-                    topic: expect.any(String)
+                    topic: expect.any(String),
+                    comment_count: expect.any(Number)
                 }))
 
 
@@ -100,7 +101,7 @@ describe('/api/articles/:article_id', () => {
 
         })
 
-        test('/api/articles/article:id?comment_count responds 200 wth article plus comment_count ', () => {
+        test('/api/articles/article:id?comment_count responds 200 with article plus comment_count ', () => {
             return request(app).get('/api/articles/1?comment_count').expect(200).then((response) => {
 
 
@@ -136,7 +137,7 @@ describe('/api/articles/:article_id', () => {
             })
 
         })
-        test('/api/articles/article:id?commet_count  200 and article wthout comment_cout when query is not valid', () => {
+        test('/api/articles/article:id?comment_count  200 and article with comment_cout when ignoring bad query', () => {
             return request(app).get('/api/articles/1?trash=1').expect(200).then((response) => {
 
                 expect(response.body.article).toEqual(expect.objectContaining({
@@ -146,7 +147,8 @@ describe('/api/articles/:article_id', () => {
                     body: expect.any(String),
                     created_at: expect.any(String),
                     author: expect.any(String),
-                    topic: expect.any(String)
+                    topic: expect.any(String),
+                    comment_count: expect.any(Number)
                 }))
             })
 
@@ -158,7 +160,7 @@ describe('/api/articles/:article_id', () => {
 
 });
 
-describe('/api/users', () => {
+xdescribe('/api/users', () => {
     describe('GET users', () => {
         test('/api/users returns array of objects, should have username property ', () => {
             return request(app).get('/api/users').expect(200).then((response) => {
@@ -207,10 +209,11 @@ describe('/api/articles', () => {
                         body: expect.any(String),
                         created_at: expect.any(String),
                         author: expect.any(String),
-                        topic: expect.any(String)
+                        topic: expect.any(String),
+                        comment_count: expect.any(String)
                     }))
 
-                    expect(Object.keys(article).length).toBe(7);
+                    expect(Object.keys(article).length).toBe(8);
 
                 })
 
@@ -237,54 +240,29 @@ describe('/api/articles', () => {
 
         })
 
-        test('/api/articles?comment_count responds 200 with array of objects and extra property count_coments ', () => {
-            return request(app).get('/api/articles?comment_count').expect(200).then((response) => {
 
-                expect(response.body.articles).toBeInstanceOf(Array);
-                expect(response.body.articles.length).toBeGreaterThan(0);
+
+        test('/api/articles responds with ignored comment_cout query when comment_count is not valid ', () => {
+            return request(app).get('/api/articles/?comment_c').expect(200).then((response) => {
 
                 response.body.articles.forEach((article) => {
-                    expect(article).toEqual(expect.objectContaining({
-                        article_id: expect.any(Number),
-                        votes: expect.any(Number),
-                        title: expect.any(String),
-                        body: expect.any(String),
-                        created_at: expect.any(String),
-                        author: expect.any(String),
-                        topic: expect.any(String),
-                        comment_count: expect.any(Number)
-                    }))
 
                     expect(Object.keys(article).length).toBe(8);
 
                 })
-
-
             })
 
         })
 
-        test('/api/articles?comment_cout responds with ignored comment_cout when comment_count is not valid ', () => {
-            return request(app).get('/api/articles?comment_c').expect(200).then((response) => {
-
-                response.body.articles.forEach((article) => {
-
-                    expect(Object.keys(article).length).toBe(7);
-
-                })
-            })
-
-        })
-
-        test('/api/articles?order=ASC responds with sorted array of articles sorted by date in ascending order ', () => {
-            return request(app).get('/api/articles?order=ASC').expect(200).then((response) => {
+        test('/api/articles/?order=ASC responds with sorted array of articles sorted by date in ascending order ', () => {
+            return request(app).get('/api/articles/?order=ASC').expect(200).then((response) => {
 
                 expect(response.body.articles).toBeSortedBy("created_at", { ascending: true });
             })
 
         })
 
-        test('/api/articles?order=ASC responds with error 400 when order query it is not valid ', () => {
+        test('/api/articles/?order=ASC responds with error 400 when order query it is not valid ', () => {
             return request(app).get('/api/articles?order=ASCd').expect(400).then((response) => {
 
                 const message = { msg: "Bad Request" };
@@ -293,15 +271,15 @@ describe('/api/articles', () => {
 
         })
 
-        test('/api/articles?order=ASC&sortby=article_id responds with sorted array of articles sorted by chosen feature and order', () => {
-            return request(app).get('/api/articles?order=ASC&sortby=article_id').expect(200).then((response) => {
+        test('/api/articles/?order=ASC&sortby=article_id responds with sorted array of articles sorted by chosen feature and order', () => {
+            return request(app).get('/api/articles/?order=ASC&sortby=article_id').expect(200).then((response) => {
 
                 expect(response.body.articles).toBeSortedBy("article_id", { ascending: true });
             })
 
         })
 
-        test('/api/articles?order=ASC&sortby=article_id responds with 400 error when sortby is not valid', () => {
+        test('/api/articles/?order=ASC&sortby=article_id responds with 400 error when sortby is not valid', () => {
             return request(app).get('/api/articles?order=ASC&sortby=article').expect(400).then((response) => {
 
                 const message = { msg: "Bad Request" };
@@ -310,8 +288,8 @@ describe('/api/articles', () => {
 
         })
 
-        test('/api/articles?topic=cats responds with array of articles filtered by topic ', () => {
-            return request(app).get('/api/articles?topic=cats').expect(200).then((response) => {
+        test('/api/articles/?topic=cats responds with array of articles filtered by topic ', () => {
+            return request(app).get('/api/articles/?topic=cats').expect(200).then((response) => {
 
                 response.body.articles.forEach((article) => {
                     expect(article).toEqual(expect.objectContaining({
@@ -324,18 +302,18 @@ describe('/api/articles', () => {
 
         })
 
-        test('/api/articles?topic=cats responds with 400 error when topis is not valid ', () => {
-            return request(app).get('/api/articles?topic=guitars').expect(400).then((response) => {
+        test('/api/articles/?topic=guitars responds with 404 error when topis is not valid ', () => {
+            return request(app).get('/api/articles/?topic=guitars').expect(404).then((response) => {
 
-                const message = { msg: "Bad Request" };
+                const message = { msg: "Resource not found" };
                 expect(response.body).toEqual(message);
 
             })
 
         })
 
-        test('/api/articles?valid_multi_guery responds with relevant array sorted and filtred ', () => {
-            return request(app).get('/api/articles?topic=mitch&sortby=article_id&order=ASC&comment_count').expect(200).then((response) => {
+        test('/api/articles/?valid_multi_guery responds with relevant array sorted and filtered ', () => {
+            return request(app).get('/api/articles/?topic=mitch&sortby=article_id&order=ASC').expect(200).then((response) => {
 
                 expect(response.body.articles).toBeInstanceOf(Array);
                 expect(response.body.articles.length).toBeGreaterThan(0);
@@ -374,7 +352,7 @@ describe('/api/articles', () => {
 
 });
 
-describe('/api/articles/:article_id', () => {
+xdescribe('/api/articles/:article_id', () => {
     describe('PATCH on article_id', () => {
 
         const updateArticle =
@@ -459,7 +437,7 @@ describe('/api/articles/:article_id', () => {
 
 });
 
-describe('/api/articles/:article_id/comments', () => {
+xdescribe('/api/articles/:article_id/comments', () => {
     describe('POST comment', () => {
 
         const insertObject =
@@ -564,7 +542,7 @@ describe('/api/articles/:article_id/comments', () => {
 
 });
 
-describe('/api/comments/:comment_id', () => {
+xdescribe('/api/comments/:comment_id', () => {
 
     describe('DELETE comment', () => {
         test('/api/comments/:comment_id responds 204 and delete comment ', () => {
@@ -604,7 +582,7 @@ describe('/api/comments/:comment_id', () => {
 
 });
 
-describe('/api/articles/:article_id/comments', () => {
+xdescribe('/api/articles/:article_id/comments', () => {
     describe('GET comments by article_id', () => {
 
         test('/api/articles/:article_id/comments responds 200 with array of comments to article  ', () => {

@@ -1,8 +1,10 @@
+const res = require('express/lib/response');
 const request = require('supertest');
 const app = require('../app');
 const db = require('../db/connection');
 const data = require('../db/index');
 const seed = require('../db/seeds/seed');
+
 
 beforeEach(() => seed(data));
 
@@ -638,6 +640,21 @@ describe('/api/articles/:article_id/comments', () => {
 
                 const message = { msg: "Bad Request" };
                 expect(response.body).toEqual(message);
+            })
+
+        })
+    });
+
+});
+
+describe('/api', () => {
+    const endpoints = require('../endpoints.json');
+
+    describe('GET description', () => {
+        test('/api returns an object of available endpoints  ', () => {
+            return request(app).get('/api').expect(200).then((response) => {
+
+                expect(response.body.endpoints).toEqual(endpoints);
             })
 
         })

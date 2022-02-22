@@ -3,10 +3,12 @@
 
 const { query } = require("../db/connection");
 const { fetchTopics, fetchArticleId, fetchUsers, fetchArticles, fetchCommentsByArticleId } = require("../models/GET-models");
+const endpoints = require('../endpoints.json');
 
 
-
-
+const getDescription = ((req, res, next) => {
+    res.status(200).send({ endpoints: endpoints });
+})
 
 
 const getTopics = ((req, res, next) => {
@@ -93,7 +95,7 @@ const getComments = ((req, res, next) => {
 
 
 
-module.exports = { getTopics, getArticleId, getUsers, getArticles, getComments };
+module.exports = { getTopics, getArticleId, getUsers, getArticles, getComments, getDescription };
 
 
 

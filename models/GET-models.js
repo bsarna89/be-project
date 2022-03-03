@@ -114,7 +114,6 @@ const fetchCommentsByArticleId = (id) => {
 }
 
 const fetchUsersByUsername = (username) => {
-    console.log(typeof username);
 
     if (typeof username === undefined) {
         return Promise.reject({ status: 400, msg: "Bad Request" });
@@ -123,7 +122,6 @@ const fetchUsersByUsername = (username) => {
     let str = `SELECT * FROM users WHERE username = $1;`
 
     return db.query(str, [username]).then(({ rows }) => {
-        console.log(rows);
 
         if (rows.length === 0) {
             return Promise.reject({ status: 404, msg: "Path not found" });

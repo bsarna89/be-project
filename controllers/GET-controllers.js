@@ -101,7 +101,7 @@ const getUserByUsername = ((req, res, next) => {
 
 
     const username = req.params.username;
-    console.log(username);
+
 
     fetchUsersByUsername(username).then((user) => {
 

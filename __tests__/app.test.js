@@ -51,7 +51,7 @@ describe('/api/topics', () => {
 });
 
 
-xdescribe('/api/articles/:article_id', () => {
+describe('/api/articles/:article_id', () => {
     describe('GET by article_id + query', () => {
 
         test('/api/articles/:article_id,responds 200 with one element array containing article  ', () => {
@@ -658,6 +658,43 @@ describe('/api', () => {
             })
 
         })
+    });
+
+});
+
+describe('/api/users/:username', () => {
+    describe('GET user by username', () => {
+        test('/api/users/:username retuns username object with relevant properties', () => {
+            return request(app).get('/api/users/icellusedkars').expect(200).then((response) => {
+
+                expect(response.body.user).toEqual(expect.objectContaining({
+                    username: 'icellusedkars',
+                    name: 'sam',
+                    avatar_url: 'https://avatars2.githubusercontent.com/u/24604688?s=460&v=4'
+                }))
+
+            })
+
+        })
+
+        test('/api/users/:username responds error 404 when username does not exist in DB ', () => {
+            return request(app).get('/api/users/john').expect(404).then((response) => {
+
+                const message = { msg: "Path not found" };
+                expect(response.body).toEqual(message);
+            })
+
+        })
+
+        test('/api/users/:username responds error 404 when path is not valid', () => {
+            return request(app).get('/api/users/icellusedkars/2').expect(404).then((response) => {
+
+                const message = { msg: "Path not found" };
+                expect(response.body).toEqual(message);
+            })
+
+        })
+
     });
 
 });

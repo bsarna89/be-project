@@ -2,7 +2,13 @@
 
 
 const { query } = require("../db/connection");
-const { fetchTopics, fetchArticleId, fetchUsers, fetchArticles, fetchCommentsByArticleId } = require("../models/GET-models");
+const {
+    fetchTopics,
+    fetchArticleId,
+    fetchUsers,
+    fetchArticles,
+    fetchCommentsByArticleId,
+    fetchUsersByUsername } = require("../models/GET-models");
 const endpoints = require('../endpoints.json');
 
 
@@ -91,11 +97,37 @@ const getComments = ((req, res, next) => {
         })
 })
 
+const getUserByUsername = ((req, res, next) => {
+
+
+    const username = req.params.username;
+
+
+    fetchUsersByUsername(username).then((user) => {
+
+        res.status(200).send({ user: user });
+
+    })
+        .catch((err) => {
+            console.log(err, "controller err");
+            next(err);
+        })
+
+})
 
 
 
 
-module.exports = { getTopics, getArticleId, getUsers, getArticles, getComments, getDescription };
+
+module.exports = {
+    getTopics,
+    getArticleId,
+    getUsers,
+    getArticles,
+    getComments,
+    getDescription,
+    getUserByUsername
+};
 
 
 

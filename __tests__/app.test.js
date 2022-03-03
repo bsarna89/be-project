@@ -15,7 +15,7 @@ afterAll(() => {
 
 
 
-xdescribe('/api/topics', () => {
+describe('/api/topics', () => {
 
     describe('GET topics', () => {
         test('/api/topics returns array of objects, should have slug and description property ', () => {
@@ -51,7 +51,7 @@ xdescribe('/api/topics', () => {
 });
 
 
-xdescribe('/api/articles/:article_id', () => {
+describe('/api/articles/:article_id', () => {
     describe('GET by article_id + query', () => {
 
         test('/api/articles/:article_id,responds 200 with one element array containing article  ', () => {
@@ -160,7 +160,7 @@ xdescribe('/api/articles/:article_id', () => {
 
 });
 
-xdescribe('/api/users', () => {
+describe('/api/users', () => {
     describe('GET users', () => {
         test('/api/users returns array of objects, should have username property ', () => {
             return request(app).get('/api/users').expect(200).then((response) => {
@@ -352,7 +352,7 @@ describe('/api/articles', () => {
 
 });
 
-xdescribe('/api/articles/:article_id', () => {
+describe('/api/articles/:article_id', () => {
     describe('PATCH on article_id', () => {
 
         const updateArticle =
@@ -437,7 +437,7 @@ xdescribe('/api/articles/:article_id', () => {
 
 });
 
-xdescribe('/api/articles/:article_id/comments', () => {
+describe('/api/articles/:article_id/comments', () => {
     describe('POST comment', () => {
 
         const insertObject =
@@ -542,7 +542,7 @@ xdescribe('/api/articles/:article_id/comments', () => {
 
 });
 
-xdescribe('/api/comments/:comment_id', () => {
+describe('/api/comments/:comment_id', () => {
 
     describe('DELETE comment', () => {
         test('/api/comments/:comment_id responds 204 and delete comment ', () => {
@@ -582,7 +582,7 @@ xdescribe('/api/comments/:comment_id', () => {
 
 });
 
-xdescribe('/api/articles/:article_id/comments', () => {
+describe('/api/articles/:article_id/comments', () => {
     describe('GET comments by article_id', () => {
 
         test('/api/articles/:article_id/comments responds 200 with array of comments to article  ', () => {
@@ -658,6 +658,43 @@ describe('/api', () => {
             })
 
         })
+    });
+
+});
+
+describe('/api/users/:username', () => {
+    describe('GET user by username', () => {
+        test('/api/users/:username retuns username object with relevant properties', () => {
+            return request(app).get('/api/users/icellusedkars').expect(200).then((response) => {
+
+                expect(response.body.user).toEqual(expect.objectContaining({
+                    username: 'icellusedkars',
+                    name: 'sam',
+                    avatar_url: 'https://avatars2.githubusercontent.com/u/24604688?s=460&v=4'
+                }))
+
+            })
+
+        })
+
+        test('/api/users/:username responds error 404 when username does not exist in DB ', () => {
+            return request(app).get('/api/users/john').expect(404).then((response) => {
+
+                const message = { msg: "Path not found" };
+                expect(response.body).toEqual(message);
+            })
+
+        })
+
+        test('/api/users/:username responds error 404 when path is not valid', () => {
+            return request(app).get('/api/users/icellusedkars/2').expect(404).then((response) => {
+
+                const message = { msg: "Path not found" };
+                expect(response.body).toEqual(message);
+            })
+
+        })
+
     });
 
 });

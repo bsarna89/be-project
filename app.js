@@ -33,7 +33,6 @@ app.post('/api/articles/:article_id/comments', postComment);
 
 
 app.all("/*", (req, res) => {
-    console.log("Path error")
     res.status(404).send({ msg: "Path not found" });
 })
 

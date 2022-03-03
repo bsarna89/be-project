@@ -2,7 +2,7 @@ const { removeComment } = require('../models/DELETE-models');
 
 const deleteComment = ((req, res, next) => {
 
-    console.log(req.params, "control");
+
     const id = parseInt(req.params.comment_id);
 
     removeComment(id).then((comment) => {
@@ -11,7 +11,7 @@ const deleteComment = ((req, res, next) => {
 
     })
         .catch((err) => {
-            console.log(err, "controller err");
+
             next(err);
         })
 

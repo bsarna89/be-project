@@ -6,11 +6,11 @@ const runSeed = () => {
 
   return seed(devData)
     .then(() => {
-      console.log("Succesful seeding");
+
       return db.end();
     })
     .catch((err) => {
-      console.log(err, "Seeding");
+
     })
 };
 

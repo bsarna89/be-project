@@ -69,7 +69,7 @@ const seed = async ({ topicData, userData, articleData, commentData }) => {
   );
   return db.query(insertCommentsQueryStr)
     .then((result) => {
-      //console.log(result.rows);
+
       return result.rows
     });
 };

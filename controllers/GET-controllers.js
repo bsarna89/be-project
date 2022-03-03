@@ -25,7 +25,7 @@ const getTopics = ((req, res, next) => {
 
     })
         .catch((err) => {
-            console.log(err, "controller err");
+
             next(err);
         })
 
@@ -39,7 +39,7 @@ const getUsers = ((req, res, next) => {
 
     })
         .catch((err) => {
-            console.log(err, "controller err");
+
             next(err);
         })
 
@@ -57,7 +57,7 @@ const getArticles = ((req, res, next) => {
 
     })
         .catch((err) => {
-            console.log(err, "controller err");
+
             next(err);
         })
 
@@ -75,7 +75,7 @@ const getArticleId = ((req, res, next) => {
 
     })
         .catch((err) => {
-            console.log(err, "controller err");
+
             next(err);
         })
 
@@ -92,7 +92,7 @@ const getComments = ((req, res, next) => {
 
     })
         .catch((err) => {
-            console.log(err, "controller err");
+
             next(err);
         })
 })
@@ -109,7 +109,7 @@ const getUserByUsername = ((req, res, next) => {
 
     })
         .catch((err) => {
-            console.log(err, "controller err");
+
             next(err);
         })
 

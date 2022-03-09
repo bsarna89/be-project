@@ -41,10 +41,13 @@ const fetchArticles = (sortby = 'created_at', order = 'DESC', topic) => {
 
     if (topic !== undefined) str += ` WHERE articles.topic = '${topic}'`
 
-    str += ` GROUP BY articles.article_id
-               ORDER BY articles.${sortby} ${order};`;
+    str += ` GROUP BY articles.article_id`
 
-
+    if (sortby !== "comment_count")
+        str += ` ORDER BY articles.${sortby} ${order};`;
+    else {
+        str += ` ORDER BY COUNT(comments.article_id) ${order};`
+    }
 
     return db.query(str).then(({ rows }) => {
 
@@ -54,9 +57,6 @@ const fetchArticles = (sortby = 'created_at', order = 'DESC', topic) => {
 
 
         return rows;
-
-
-
     })
 }
 

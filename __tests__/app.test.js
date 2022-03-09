@@ -279,6 +279,26 @@ describe('/api/articles', () => {
 
         })
 
+        test('/api/articles/?sortby=comment_count responds with sorted array of articles by chosen feature and order', () => {
+            return request(app).get('/api/articles/?sortby=comment_count&order=ASC').expect(200).then((response) => {
+
+                const articlesArray = response.body.articles.map((article) => {
+                    article.comment_count = parseInt(article.comment_count);
+                    return article;
+                });
+                expect(articlesArray).toBeSortedBy('comment_count', { ascending: true });
+            })
+
+        })
+
+        test('/api/articles/?sortby=created_at responds with sorted array of articles by chosen feature and order', () => {
+            return request(app).get('/api/articles/?sortby=created_at').expect(200).then((response) => {
+
+                expect(response.body.articles).toBeSortedBy('created_at', { descending: true });
+            })
+
+        })
+
         test('/api/articles/?order=ASC&sortby=article_id responds with 400 error when sortby is not valid', () => {
             return request(app).get('/api/articles?order=ASC&sortby=article').expect(400).then((response) => {
 
@@ -287,6 +307,8 @@ describe('/api/articles', () => {
             })
 
         })
+
+
 
         test('/api/articles/?topic=cats responds with array of articles filtered by topic ', () => {
             return request(app).get('/api/articles/?topic=cats').expect(200).then((response) => {
